@@ -1,12 +1,12 @@
 from pybedrock import Addons
-from entities import Entities, Event, Component, ComponentGroup
-from entities import AnimationController, Animation, RenderController
+from entities import Entities, Event, ComponentGroup
 from entities import Filters
 from entity_components import *
 
 addons = Addons("PY Bedrock Test Pack")
 addons.namespace = "pyb"
 
+# Sample vanilla creeper
 creeper = Entities("creeper", True, True)
 creeper.addMaterial("default", "creeper")
 creeper.addMaterial("charged", "charged_creeper")
