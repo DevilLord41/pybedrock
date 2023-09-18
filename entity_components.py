@@ -147,6 +147,12 @@ class MCMovement(Component):
         self.value: float = value
 
 
+class MCFlyingSpeed(Component):
+    def __init__(self, value: float):
+        super().__init__("minecraft:flying_speed")
+        self.value: float = value
+
+
 class MCKnockbackResistance(Component):
     def __init__(self, value: float, max: float = None):
         super().__init__("minecraft:knockback_resistance")
@@ -180,6 +186,42 @@ class MCTypeFamily(Component):
     def __init__(self, family: list):
         super().__init__("minecraft:type_family")
         self.family: list = family
+
+
+class MCBalloonable(Component):
+    def __init__(
+        self,
+        mass: float = None,
+        max_distance: float = None,
+        on_ballon: str = None,
+        on_unballon: str = None,
+        soft_distance: float = None,
+    ):
+        super().__init__("minecraft:balloonable")
+        self.mass: float = mass
+        self.max_distance: float = max_distance
+        self.on_ballon: str = on_ballon
+        self.on_unballon: str = on_unballon
+        self.soft_distance: float = soft_distance
+
+
+class MCLeashable(Component):
+    def __init__(
+        self,
+        soft_distance: float = None,
+        hard_distance: float = None,
+        max_distance: float = None,
+        can_be_stolen: bool = None,
+        on_leash: TriggerEvent = None,
+        on_unleash: TriggerEvent = None,
+    ):
+        super().__init__("minecraft:leashable")
+        self.soft_distance: float = soft_distance
+        self.hard_distance: float = hard_distance
+        self.max_distance: float = max_distance
+        self.can_be_stolen: bool = can_be_stolen
+        self.on_leash: TriggerEvent = on_leash
+        self.on_unleash: TriggerEvent = on_unleash
 
 
 class MCBreathable(Component):
@@ -230,6 +272,13 @@ class MCCollisionBox(Component):
         self.height = height
 
 
+class MCFollowRange(Component):
+    def __init__(self, value: float, max: float = None):
+        super().__init__("minecraft:follow_range")
+        self.value = value
+        self.max = max
+
+
 class MCHealth(Component):
     def __init__(self, value: float, min: float = None, max: float = None):
         super().__init__("minecraft:health")
@@ -238,8 +287,25 @@ class MCHealth(Component):
         self.max = max
 
 
+class NCAmbientSoundInterval(Component):
+    def __init__(
+        self,
+        value: float = None,
+        range: float = None,
+        event_name: float = None,
+        event_names: list = None,
+    ):
+        super().__init__("minecraft:ambient_sound_interval")
+        self.value: float = value
+        self.range: float = range
+        self.event_name: float = event_name
+        self.event_names: list = event_names
+
+
 class MCAttack(Component):
-    def __init__(self, damage: float, effect_duration: float = None, effect_name: str = None):
+    def __init__(
+        self, damage: float, effect_duration: float = None, effect_name: str = None
+    ):
         super().__init__("minecraft:attack")
         self.damage = damage
         self.effect_name = effect_name
@@ -356,6 +422,26 @@ class MCIsCharged(Component):
         super().__init__("minecraft:is_charged")
 
 
+class MCCanFly(Component):
+    def __init__(self):
+        super().__init__("minecraft:can_fly")
+
+
+class MCVibrationListener(Component):
+    def __init__(self):
+        super().__init__("minecraft:vibration_listener")
+
+
+class MCGameEventMovementTracking(Component):
+    def __init__(
+        self, emit_flap: bool = None, emit_move: bool = None, emit_swim: bool = None
+    ):
+        super().__init__("minecraft:game_event_movement_tracking")
+        self.emit_flap: bool = emit_flap
+        self.emit_move: bool = emit_move
+        self.emit_swim: bool = emit_swim
+
+
 class MCScale(Component):
     def __init__(self, scale: float):
         super().__init__("minecraft:scale")
@@ -455,9 +541,60 @@ class MCNavigationWalk(Component):
         self.blocks_to_avoid: list = blocks_to_avoid
 
 
+class MCNavigationHover(Component):
+    def __init__(
+        self,
+        can_path_over_water: bool = None,
+        avoid_damage_blocks: bool = None,
+        avoid_portals: bool = None,
+        avoid_sun: bool = None,
+        avoid_water: bool = None,
+        can_breach: bool = None,
+        can_break_doors: bool = None,
+        can_jump: bool = None,
+        can_open_doors: bool = None,
+        can_open_iron_doors: bool = None,
+        can_pass_doors: bool = None,
+        can_path_from_air: bool = None,
+        can_path_over_lava: bool = None,
+        can_sink: bool = None,
+        can_swim: bool = None,
+        can_walk: bool = None,
+        can_walk_in_lava: bool = None,
+        is_amphibious: bool = None,
+        blocks_to_avoid: list = None,
+    ):
+        super().__init__("minecraft:navigation.hover")
+        self.can_path_over_water: bool = can_path_over_water
+        self.avoid_damage_blocks: bool = avoid_damage_blocks
+        self.avoid_portals: bool = avoid_portals
+        self.avoid_sun: bool = avoid_sun
+        self.avoid_water: bool = avoid_water
+        self.can_breach: bool = can_breach
+        self.can_break_doors: bool = can_break_doors
+        self.can_jump: bool = can_jump
+        self.can_open_doors: bool = can_open_doors
+        self.can_open_iron_doors: bool = can_open_iron_doors
+        self.can_pass_doors: bool = can_pass_doors
+        self.can_path_from_air: bool = can_path_from_air
+        self.can_path_over_lava: bool = can_path_over_lava
+        self.can_sink: bool = can_sink
+        self.can_swim: bool = can_swim
+        self.can_walk: bool = can_walk
+        self.can_walk_in_lava: bool = can_walk_in_lava
+        self.is_amphibious: bool = is_amphibious
+        self.blocks_to_avoid: list = blocks_to_avoid
+
+
 class MCMovementBasic(Component):
     def __init__(self, max_turn: int = None):
         super().__init__("minecraft:movement.basic")
+        self.max_turn: int = max_turn
+
+
+class MCMovementHover(Component):
+    def __init__(self, max_turn: int = None):
+        super().__init__("minecraft:movement.hover")
         self.max_turn: int = max_turn
 
 
@@ -626,19 +763,94 @@ class MCBehaviorRandomStroll(Component):
         self.y_dist: int = y_dist
 
 
+class MCBehaviorRandomHover(Component):
+    def __init__(
+        self,
+        priority: int = None,
+        speed_multiplier: float = None,
+        interval: int = None,
+        xz_dist: int = None,
+        y_dist: int = None,
+        y_offset: int = None,
+        hover_height: list = None,
+    ):
+        super().__init__("minecraft:behavior.random_hover")
+        self.priority: int = priority
+        self.speed_multiplier: float = speed_multiplier
+        self.interval: int = interval
+        self.xz_dist: int = xz_dist
+        self.y_dist: int = y_dist
+        self.y_offset: int = y_offset
+        self.hover_height: list = hover_height
+
+
+class MCBehaviorPickupItems(Component):
+    def __init__(
+        self,
+        priority: int = None,
+        max_dist: int = None,
+        goal_radius: int = None,
+        search_height: int = None,
+        speed_multiplier: float = None,
+        cooldown_after_being_attacked: int = None,
+        can_pickup_any_item: bool = None,
+        can_pickup_to_hand_or_equipment: bool = None,
+        pickup_based_on_chance: bool = None,
+        pickup_same_items_as_in_hand: bool = None,
+        excluded_items: list = None,
+    ):
+        super().__init__("minecraft:behavior.pickup_items")
+        self.priority: int = priority
+        self.max_dist: int = max_dist
+        self.goal_radius: int = goal_radius
+        self.search_height: int = search_height
+        self.speed_multiplier: float = speed_multiplier
+        self.cooldown_after_being_attacked: int = cooldown_after_being_attacked
+        self.can_pickup_any_item: bool = can_pickup_any_item
+        self.can_pickup_to_hand_or_equipment: bool = can_pickup_to_hand_or_equipment
+        self.pickup_based_on_chance: bool = pickup_based_on_chance
+        self.pickup_same_items_as_in_hand: bool = pickup_same_items_as_in_hand
+        self.excluded_items: list = excluded_items
+
+
+class MCBehaviorPanic(Component):
+    def __init__(
+        self,
+        priority: int = None,
+        speed_multiplier: float = None,
+        damage_sources: list = None,
+        force: bool = None,
+        ignore_mob_damage: bool = None,
+        prefer_water: bool = None,
+        panic_sound: str = None,
+        sound_interval: str = None,
+    ):
+        super().__init__("minecraft:behavior.panic")
+        self.priority: int = priority
+        self.speed_multiplier: float = speed_multiplier
+        self.damage_sources: list = damage_sources
+        self.force: bool = force
+        self.ignore_mob_damage: bool = ignore_mob_damage
+        self.prefer_water: bool = prefer_water
+        self.panic_sound: str = panic_sound
+        self.sound_interval: str = sound_interval
+
+
 class MCBehaviorLookAtPlayer(Component):
     def __init__(
         self,
         priority: int = None,
-        look_distance: int = None,
+        target_distance: float = None,
+        probability: float = None,
+        look_distance: float = None,
         angle_of_view_horizontal: int = None,
         angle_of_view_vertical: int = None,
         look_time: list = None,
-        target_distance: int = None,
     ):
         super().__init__("minecraft:behavior.look_at_player")
         self.priority: int = priority
-        self.look_distance: int = look_distance
+        self.look_distance: float = look_distance
+        self.probability: float = probability
         self.angle_of_view_horizontal: int = angle_of_view_horizontal
         self.angle_of_view_vertical: int = angle_of_view_vertical
         self.look_time: list = look_time
@@ -679,3 +891,45 @@ class MCBehaviorHurtByTarget(Component):
             self.entity_types = []
 
         self.entity_types(entity_type)
+
+
+class MCBehaviorGoAndGiveItemsToNoteblock(Component):
+    def __init__(
+        self,
+        priority: int = None,
+        run_speed: int = None,
+        listen_time: float = None,
+        reach_block_distance: float = None,
+        throw_force: float = None,
+        vertical_throw_mul: float = None,
+        throw_sound: str = None,
+        on_item_throw: list = None,
+    ):
+        super().__init__("minecraft:behavior.go_and_give_items_to_noteblock")
+        self.priority: int = priority
+        self.run_speed: int = run_speed
+        self.listen_time: float = listen_time
+        self.reach_block_distance: float = reach_block_distance
+        self.throw_force: float = throw_force
+        self.vertical_throw_mul: float = vertical_throw_mul
+        self.throw_sound: str = throw_sound
+        self.on_item_throw: list = on_item_throw
+
+
+class MCBehaviorStayNearNoteblock(Component):
+    def __init__(
+        self,
+        priority: int = None,
+        speed: int = None,
+        start_distance: int = None,
+        stop_distance: int = None,
+        can_teleport: bool = None,
+        ignore_vibration: bool = None,
+    ):
+        super().__init__("minecraft:behavior.stay_near_noteblock")
+        self.priority: int = priority
+        self.speed: int = speed
+        self.start_distance: int = start_distance
+        self.stop_distance: int = stop_distance
+        self.can_teleport: bool = can_teleport
+        self.ignore_vibration: bool = ignore_vibration
