@@ -131,6 +131,7 @@ class EnumProperties(Properties):
 
 class Entities:
     def __init__(self, id, summonable, spawnable, name=""):
+        self.format_version = "1.20.0"
         self.id = id
         self.name = name
         self.summonable = summonable

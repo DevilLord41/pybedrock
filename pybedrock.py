@@ -10,6 +10,7 @@ class Addons:
         self.name = name
         self.namespace = ""
         self.min_engine_version = [1, 20, 15]
+        self.entity_format_version = "1.20.0"
 
         # BP
         self.entities = []
@@ -179,7 +180,7 @@ class Addons:
         rp_entities_path = self.dev_rp + "\\entity\\"
         for entity in self.entities:
             json_entity = {
-                "format_version": "1.20.0",
+                "format_version": f"{self.entity_format_version}",
                 "minecraft:entity": {
                     "description": {
                         "identifier": f"{self.namespace}:{entity.id}",
