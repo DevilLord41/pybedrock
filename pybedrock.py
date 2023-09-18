@@ -231,7 +231,19 @@ class Addons:
                         component[k] = v
                     else:
                         component[k] = self.flattenObject(v)
-
+            
+            for p in entity.properties:
+                if "properties" not in entity_description:
+                  entity_description["properties"] = {}
+                properties = entity_description["properties"][f"{self.namespace}:{p.name}"] = {}
+                for k, v in vars(p).items():
+                    if k == "name" or v is None:
+                        continue
+                    if isinstance(v, (str, int, float, bool)) or v is None:
+                        properties[k] = v
+                    else:
+                        properties[k] = self.flattenObject(v)
+            
             for e in entity.events:
                 event = events[e.name] = {}
                 if e.add is not None:
@@ -242,6 +254,8 @@ class Addons:
                     event["sequence"] = self.flattenObject(e.sequence)
                 if e.randomize is not None:
                     event["randomize"] = self.flattenObject(e.randomize)
+                if e.set_property is not None:
+                    event["set_property"] = e.set_property
 
             json = rapidjson.dumps(json_entity, indent=2)
             filepath = bp_entities_path + "\\" + entity.id + ".json"

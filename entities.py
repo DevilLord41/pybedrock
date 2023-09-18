@@ -98,6 +98,37 @@ class Animation:
         self.timeline[time] = cmd
 
 
+class Properties:
+    def __init__(self, name, type, client_sync, default):
+        self.name = name
+        self.type = type
+        self.client_sync = client_sync
+        self.default = default
+
+
+class BoolProperties(Properties):
+    def __init__(self, name, client_sync=None, default=None):
+        super().__init__(name, "bool", client_sync, default)
+
+
+class FloatProperties(Properties):
+    def __init__(self, name, client_sync=None, default=None, range=None):
+        super().__init__(name, "float", client_sync, default)
+        self.range = range
+
+
+class IntProperties(Properties):
+    def __init__(self, name, client_sync=None, default=None, range=None):
+        super().__init__(name, "int", client_sync, default)
+        self.range = range
+
+
+class EnumProperties(Properties):
+    def __init__(self, name, client_sync=None, default=None, values=None):
+        super().__init__(name, "enum", client_sync, default)
+        self.values = values
+
+
 class Entities:
     def __init__(self, id, summonable, spawnable, name=""):
         self.id = id
@@ -128,6 +159,7 @@ class Entities:
         self.component_groups = []
         self.components = []
         self.events = []
+        self.properties = []
 
     def addTexture(self, name, path):
         self.textures[name] = path
@@ -200,6 +232,9 @@ class Entities:
     def addEvent(self, event: Event):
         self.events.append(event)
 
+    def addProperties(self, properties: Properties):
+        self.properties.append(properties)
+
 
 class Component:
     def __init__(self, name: str = None):
@@ -232,6 +267,7 @@ class Event:
         self.trigger: str = trigger
         self.randomize = None
         self.sequence = None
+        self.set_property = None
 
     class Sequence:
         def __init__(

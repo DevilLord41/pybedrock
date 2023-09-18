@@ -1,6 +1,6 @@
 from pybedrock import Addons
 from entities import Entities, Event, ComponentGroup
-from entities import Filters
+from entities import Filters, IntProperties, FloatProperties, BoolProperties
 from entity_components import *
 
 addons = Addons("PY Bedrock Test Pack")
@@ -203,10 +203,21 @@ become_charged_event = Event("minecraft:become_charged")
 become_charged_event.remove = ["minecraft:exploding"]
 become_charged_event.add = ["minecraft:charged_creeper"]
 
+creeper.addProperties(IntProperties("variant_num", True, 0, [0, 100]))
+creeper.addProperties(BoolProperties("is_exploding", False, False))
+creeper.addProperties(FloatProperties("swell_mult", True, 0, [0.0, 1.7]))
+
+change_properties = Event("change_properties")
+change_properties.set_property = {
+    f"{addons.namespace}:variant_num": 5,
+    f"{addons.namespace}:is_exploding": True,
+}
+
 creeper.events = [
     start_exploding_forced_event,
     stop_exploding_event,
     become_charged_event,
+    change_properties,
 ]
 
 addons.addEntities(creeper)
