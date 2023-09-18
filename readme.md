@@ -16,5 +16,6 @@ Getting bored of json? here use PYBedrock to get your addons development more co
 - Add dialogues
 
 ## Credits
-This is my personal project i do for fun, maintenance, updates and what it is for are not gonna be guaranteed. Contribution and feedback are welcome. <br>
+This is my personal project i do for fun in free time and good mood. So maintenance, updates and what is this project even for are not gonna be guaranteed. <br><br>
+Contribution and feedback are welcome. <br>
 Discord: dariusklaus
