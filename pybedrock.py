@@ -1,4 +1,5 @@
 from entities import Entities
+from items import Item
 
 import rapidjson
 import uuid
@@ -11,6 +12,7 @@ class Addons:
         self.namespace = ""
         self.min_engine_version = [1, 20, 15]
         self.entity_format_version = "1.20.0"
+        self.item_format_version = "1.20.30"
 
         # BP
         self.entities = []
@@ -28,6 +30,9 @@ class Addons:
 
     def addEntities(self, entity: Entities):
         self.entities.append(entity)
+    
+    def addItem(self, item: Item):
+        self.items.append(item)
 
     def checkForExist(self):
         return os.path.exists(f"{self.dev_bp}") or os.path.exists(f"{self.dev_rp}")
@@ -186,7 +191,7 @@ class Addons:
                         "identifier": f"{self.namespace}:{entity.id}",
                         "is_spawnable": entity.spawnable,
                         "is_summonable": entity.summonable,
-                        "is_experimental": False
+                        "is_experimental": False,
                     }
                 },
             }
@@ -195,10 +200,10 @@ class Addons:
 
             if entity.runtime_identifier is not None:
                 entity_description["runtime_identifier"] = entity.runtime_identifier
-            
+
             if entity.bp_animations is not None:
                 entity_description["animations"] = entity.bp_animations
-            
+
             if entity.bp_animate is not None:
                 entity_description["script"] = {}
                 entity_description["script"]["animate"] = entity.bp_animate
@@ -232,11 +237,13 @@ class Addons:
                         component[k] = v
                     else:
                         component[k] = self.flattenObject(v)
-            
+
             for p in entity.properties:
                 if "properties" not in entity_description:
-                  entity_description["properties"] = {}
-                properties = entity_description["properties"][f"{self.namespace}:{p.name}"] = {}
+                    entity_description["properties"] = {}
+                properties = entity_description["properties"][
+                    f"{self.namespace}:{p.name}"
+                ] = {}
                 for k, v in vars(p).items():
                     if k == "name" or v is None:
                         continue
@@ -244,7 +251,7 @@ class Addons:
                         properties[k] = v
                     else:
                         properties[k] = self.flattenObject(v)
-            
+
             for e in entity.events:
                 event = events[e.name] = {}
                 if e.add is not None:
@@ -339,6 +346,36 @@ class Addons:
 
     def generateItems(self):
         print("Generating items...")
+        bp_items_path = self.dev_bp + "\\items\\"
+        for item in self.items:
+            json_entity = {
+                "format_version": f"{self.item_format_version}",
+                "minecraft:item": {
+                    "description": {"identifier": f"{self.namespace}:{item.id}"},
+                    "components": {},
+                },
+            }
+
+            item_json = json_entity["minecraft:item"]
+            if item.menu_category is not None:
+                item_json["menu_category"] = item.menu_category
+
+        components = item_json["components"]
+        for c in item.components:
+            component = components[c.name] = {}
+            for k, v in vars(c).items():
+                if k == "name" or v is None:
+                    continue
+                if isinstance(v, (str, int, float, bool)) or v is None:
+                    component[k] = v
+                else:
+                    component[k] = self.flattenObject(v)
+
+        json = rapidjson.dumps(json_entity, indent=2)
+        filepath = bp_items_path + "\\" + item.id + ".json"
+
+        with open(filepath, "w") as file:
+            file.write(json)
 
     def generateFunction(self):
         print("Generating function...")

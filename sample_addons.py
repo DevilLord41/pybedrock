@@ -2,6 +2,7 @@ from pybedrock import Addons
 from entities import Entities, Event, ComponentGroup
 from entities import Filters, IntProperties, FloatProperties, BoolProperties
 from entity_components import *
+from items import *
 
 addons = Addons("PY Bedrock Test Pack")
 addons.namespace = "pyb"
@@ -220,5 +221,23 @@ creeper.events = [
     change_properties,
 ]
 
+arrow_turret_placer = Item("arrow_turret_placer")
+arrow_turret_placer.addComponent(MCItemIcon("tut_arrow_turret"))
+arrow_turret_placer.addComponent(
+    MCItemDigger(
+        [
+            MCItemDigger.Block("minecraft:purple_wool", -100),
+            MCItemDigger.Block("minecraft:red_wool", -100),
+            MCItemDigger.Block("minecraft:yellow_wool", -100),
+            MCItemDigger.Block("minecraft:lime_wool", -100),
+        ],
+    )
+)
+arrow_turret_placer.addComponent(MCItemMaxStackSize(1))
+arrow_turret_placer.addComponent(
+    MCItemEntityPlacer("res:tutorial_arrow_turret", use_on=["minecraft:purple_wool"])
+)
+
+addons.addItem(arrow_turret_placer)
 addons.addEntities(creeper)
 addons.generate()
