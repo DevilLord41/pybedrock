@@ -155,7 +155,7 @@ class Addons:
             group = ac.group
             name = f"controller.animation.{group}.{ac.name}"
             ac_type_path = getattr(self, f"dev_{ac_type}")
-            file_path = f"{ac_type_path}\\animation_controllers\\{group}_{'animation_controllers' if ac_type == 'rp' else 'controllers'}.json"
+            file_path = f"{ac_type_path}\\animation_controllers\\{group}.{'animation_controllers' if ac_type == 'rp' else 'controllers'}.json"
 
             ac_data = {"format_version": "1.10.0", "animation_controllers": {}}
 
@@ -272,7 +272,6 @@ class Addons:
 
             json = rapidjson.dumps(json_entity, indent=2)
             filepath = bp_entities_path + "\\" + entity.id + ".json"
-
             with open(filepath, "w") as file:
                 file.write(json)
 

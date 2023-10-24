@@ -10,12 +10,12 @@ class AnimationController:
         self.states = []
 
     class States:
-        def __init__(self, name):
-            self.name = name
-            self.on_entry = None
-            self.animations = None
-            self.transitions = None
-            self.on_exit = None
+        def __init__(self, name: str, on_entry: list = None, animations: list = None, transitions: list = None, on_exit: list = None):
+            self.name: str = name
+            self.on_entry: list = on_entry
+            self.animations: list = animations
+            self.transitions: list = transitions
+            self.on_exit: list = on_exit
 
     def addStates(self, state: States):
         self.states.append(state)
@@ -194,34 +194,45 @@ class Entities:
         else:
             print("Invalid render controller type.")
 
-    def addAnimate(self, name, condition=None):
+    def addAnimate(self, anim: Animation | AnimationController | str, condition=None):
         if self.animate is None:
             self.animate = []
+        name = anim.id
+        if isinstance(anim, str):
+          name = anim
+        if isinstance(anim, AnimationController):
+          self.rp_ac.append(anim)
         if condition is None:
             self.animate.append(name)
         else:
             self.animate.append({name: condition})
 
-    def animateBP(self, anim: Animation, condition=None):
+    def animateBP(self, anim: Animation | AnimationController | str, condition=None):
+        if self.bp_animate is None:
+            self.bp_animate = []
+        name = anim.id
+        if isinstance(anim, str):
+          name = anim
         if condition == None:
-            self.bp_animate.append(anim.name)
+            self.bp_animate.append(name)
         else:
-            self.animate.append({anim.name: condition})
-
-        self.bp_anim.append(anim)
+            self.bp_animate.append({name: condition})
 
     def addAnimation(self, anim: str | AnimationController, id=None):
         if isinstance(anim, AnimationController):
-            self.animations[anim.id] = f"animation.{anim.name}"
+            self.animations[anim.id] = f"controller.animation.{anim.name}"
             self.rp_ac.append(anim)
         else:
             self.animations[id] = anim
 
     def addBPAnimation(self, anim: AnimationController | Animation):
-        self.bp_animations[anim.id] = f"animation.{anim.name}"
+        if self.bp_animations == None:
+          self.bp_animations = {}
         if isinstance(anim, AnimationController):
+            self.bp_animations[anim.id] = f"controller.animation.{anim.group}.{anim.name}"
             self.bp_ac.append(anim)
         elif isinstance(anim, Animation):
+            self.bp_animations[anim.id] = f"animation.{anim.group}.{anim.name}"
             self.bp_anim.append(anim)
 
     def addComponentGroup(self, componentGroup: ComponentGroup):
