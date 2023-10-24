@@ -92,28 +92,45 @@ class MCInteract(Component):
         self.interactions.append(interaction)
 
     class Interaction:
-        def __init__(self, interact_text: str):
+        def __init__(
+            self,
+            interact_text: str = None,
+            vibration: str = None,
+            use_item: bool = None,
+            transform_to_item: str = None,
+            swing: bool = None,
+            hurt_item: int = None,
+            spawn_items: dict = None,
+            spawn_entities: str = None,
+            play_sounds: str = None,
+            particle_on_start: MCInteract.MCInteractParticle = None,
+            on_interact: MCInteract.MCOnInteract = None,
+            equip_item_slot: int = None,
+            cooldown_after_being_attacked: float = None,
+            cooldown: float = None,
+            add_items: dict = None,
+        ):
             self.interact_text: str = interact_text
-            self.vibration: str = None
-            self.use_item: bool = None
-            self.transform_to_item: str = None
-            self.swing: bool = None
-            self.hurt_item: int = None
-            self.spawn_items: dict = None
-            self.spawn_entities: str = None
-            self.play_sounds: str = None
-            self.particle_on_start: MCInteract.MCInteractParticle = None
-            self.on_interact: MCInteract.MCOnInteract = None
-            self.equip_item_slot: int = None
-            self.cooldown_after_being_attacked: float = None
-            self.cooldown: float = None
-            self.add_items: dict = None
+            self.vibration: str = vibration
+            self.use_item: bool = use_item
+            self.transform_to_item: str = transform_to_item
+            self.swing: bool = swing
+            self.hurt_item: int = hurt_item
+            self.spawn_items: dict = spawn_items
+            self.spawn_entities: str = spawn_entities
+            self.play_sounds: str = play_sounds
+            self.particle_on_start: MCInteract.MCInteractParticle = particle_on_start
+            self.on_interact: MCInteract.MCOnInteract = on_interact
+            self.equip_item_slot: int = equip_item_slot
+            self.cooldown_after_being_attacked: float = cooldown_after_being_attacked
+            self.cooldown: float = cooldown
+            self.add_items: dict = add_items
 
     class MCOnInteract:
-        def __init__(self):
-            self.event: str = None
-            self.target: str = None
-            self.filters: Filters = None
+        def __init__(self, event: str, target: str = None, filters: Filters = None):
+            self.event: str = event
+            self.target: str = target
+            self.filters: Filters = filters
 
     class MCInteractParticle:
         def __init__(
@@ -191,6 +208,11 @@ class MCTypeFamily(Component):
     def __init__(self, family: list):
         super().__init__("minecraft:type_family")
         self.family: list = family
+
+class MCLoot(Component):
+    def __init__(self, table: str):
+        super().__init__("minecraft:loot")
+        self.table: str = table
 
 
 class MCBalloonable(Component):
