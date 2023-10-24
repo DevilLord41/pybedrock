@@ -153,6 +153,11 @@ class MCFlyingSpeed(Component):
         self.value: float = value
 
 
+class MCFireImmune(Component):
+    def __init__(self):
+        super().__init__("minecraft:fire_immune")
+
+
 class MCKnockbackResistance(Component):
     def __init__(self, value: float, max: float = None):
         super().__init__("minecraft:knockback_resistance")
@@ -162,10 +167,10 @@ class MCKnockbackResistance(Component):
 
 class MCTimer(Component):
     def __init__(
-        self, time: float, time_down_event: TriggerEvent, looping: bool = None
+        self, time: float | list, time_down_event: TriggerEvent, looping: bool = None
     ):
-        super().__init__("minecraft:knockback_resistance")
-        self.time: float = time
+        super().__init__("minecraft:timer")
+        self.time: float | list = time
         self.looping: bool = looping
         self.time_down_event: TriggerEvent = time_down_event
 
@@ -270,6 +275,18 @@ class MCCollisionBox(Component):
         super().__init__("minecraft:collision_box")
         self.width = width
         self.height = height
+
+
+class MCCustomHitTest(Component):
+    def __init__(self, hitboxes: list):
+        super().__init__("minecraft:custom_hit_test")
+        self.hitboxes = hitboxes
+
+    class Hitbox:
+        def __init__(self, width: float, height: float, pivot: list):
+            self.width = width
+            self.height = height
+            self.pivot = pivot
 
 
 class MCFollowRange(Component):
@@ -420,6 +437,27 @@ class MCConditionalBandwidthOptimization(Component):
 class MCIsCharged(Component):
     def __init__(self):
         super().__init__("minecraft:is_charged")
+
+
+class MCIsIllagerCaptain(Component):
+    def __init__(self):
+        super().__init__("minecraft:is_illager_captain")
+
+
+class MCIsShaking(Component):
+    def __init__(self):
+        super().__init__("minecraft:is_shaking")
+
+
+class MCIsSheared(Component):
+    def __init__(self):
+        super().__init__("minecraft:is_sheared")
+
+
+class MCInstantDespawn(Component):
+    def __init__(self, remove_child_entities: bool = None):
+        super().__init__("minecraft:instant_despawn")
+        self.remove_child_entities: bool = remove_child_entities
 
 
 class MCCanFly(Component):
