@@ -1,5 +1,6 @@
 from entities import Entities
 from items import Item
+from recipes import Recipe
 
 import rapidjson
 import uuid
@@ -13,6 +14,7 @@ class Addons:
         self.min_engine_version = [1, 20, 15]
         self.entity_format_version = "1.20.0"
         self.item_format_version = "1.20.30"
+        self.recipe_format_version = "1.12.0"
 
         # BP
         self.entities = []
@@ -30,9 +32,12 @@ class Addons:
 
     def addEntities(self, entity: Entities):
         self.entities.append(entity)
-    
+
     def addItem(self, item: Item):
         self.items.append(item)
+
+    def AddRecipe(self, recipe: Recipe):
+        self.recipes.append(recipe)
 
     def checkForExist(self):
         return os.path.exists(f"{self.dev_bp}") or os.path.exists(f"{self.dev_rp}")
@@ -348,7 +353,7 @@ class Addons:
         print("Generating items...")
         bp_items_path = self.dev_bp + "\\items\\"
         for item in self.items:
-            json_entity = {
+            json = {
                 "format_version": f"{self.item_format_version}",
                 "minecraft:item": {
                     "description": {"identifier": f"{self.namespace}:{item.id}"},
@@ -356,26 +361,26 @@ class Addons:
                 },
             }
 
-            item_json = json_entity["minecraft:item"]
+            item_json = json["minecraft:item"]
             if item.menu_category is not None:
                 item_json["menu_category"] = item.menu_category
 
-        components = item_json["components"]
-        for c in item.components:
-            component = components[c.name] = {}
-            for k, v in vars(c).items():
-                if k == "name" or v is None:
-                    continue
-                if isinstance(v, (str, int, float, bool)) or v is None:
-                    component[k] = v
-                else:
-                    component[k] = self.flattenObject(v)
+            components = item_json["components"]
+            for c in item.components:
+                component = components[c.name] = {}
+                for k, v in vars(c).items():
+                    if k == "name" or v is None:
+                        continue
+                    if isinstance(v, (str, int, float, bool)) or v is None:
+                        component[k] = v
+                    else:
+                        component[k] = self.flattenObject(v)
 
-        json = rapidjson.dumps(json_entity, indent=2)
-        filepath = bp_items_path + "\\" + item.id + ".json"
+            json = rapidjson.dumps(json, indent=2)
+            filepath = bp_items_path + "\\" + item.id + ".json"
 
-        with open(filepath, "w") as file:
-            file.write(json)
+            with open(filepath, "w") as file:
+                file.write(json)
 
     def generateFunction(self):
         print("Generating function...")
@@ -385,6 +390,31 @@ class Addons:
 
     def generateRecipes(self):
         print("Generating recipes...")
+        bp_recipes_path = self.dev_bp + "\\recipes\\"
+        for recipe in self.recipes:
+            recipe_type = f"minecraft:{recipe.recipe_type}"
+            json = {
+                "format_version": f"{self.recipe_format_version}",
+                recipe_type: {
+                    "description": {"identifier": f"{self.namespace}:{recipe.identifier}"},
+                },
+            }
+
+            recipe_json = json[recipe_type]
+
+            for k, v in vars(recipe).items():
+              if k == "recipe_type" or k == "identifier" or v is None:
+                  continue
+              if isinstance(v, (str, int, float, bool)) or v is None:
+                  recipe_json[k] = v
+              else:
+                  recipe_json[k] = self.flattenObject(v)
+
+            json = rapidjson.dumps(json, indent=2)
+            filepath = bp_recipes_path + "\\" + recipe.identifier + ".json"
+
+            with open(filepath, "w") as file:
+                file.write(json)
 
     def generateText(self):
         print("Generating lang file ...")

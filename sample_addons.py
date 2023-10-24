@@ -3,6 +3,7 @@ from entities import Entities, Event, ComponentGroup
 from entities import Filters, IntProperties, FloatProperties, BoolProperties
 from entity_components import *
 from items import *
+from recipes import *
 
 addons = Addons("PY Bedrock Test Pack")
 addons.namespace = "pyb"
@@ -238,6 +239,60 @@ arrow_turret_placer.addComponent(
     MCItemEntityPlacer("res:tutorial_arrow_turret", use_on=["minecraft:purple_wool"])
 )
 
+furnace_recipe = FurnaceRecipe(
+    "furnace_beef", FurnaceRecipe.Input("minecraft:beef", 0, 4), "minecraft:cooked_beef"
+)
+brewing_container_recipe = BrewingContainerRecipe(
+    "brew_potion_sulphur",
+    "minecraft:potion",
+    "minecraft:gunpowder",
+    "minecraft:splash_potion",
+)
+brewing_mix_recipe = BrewingMixRecipe(
+    "brewing_awkward_blaze_powder",
+    "minecraft:potion_type_awkward",
+    "minecraft:blaze_powder",
+    "minecraft:potion_type:strength",
+)
+shaped_recipe = ShapedRecipe(
+    "acacia_boat",
+    ["#P#", "###"],
+    {
+        "P": ShapedRecipe.Key("minecraft:wooden_shovel"),
+        "#": ShapedRecipe.Key("minecraft:planks", 4),
+    },
+    ShapedRecipe.Result("minecraft:boat", 4),
+)
+
+shapeless_recipe = ShapelessRecipe(
+    "firecharge_coal_sulphur",
+    0,
+    ShapelessRecipe.Ingredient("minecraft:fireball", 0, 4),
+    ShapedRecipe.Result("minecraft:blaze_pwoder", 4),
+)
+
+smithing_transform_recipe = SmithingTransformRecipe(
+    "smithing_netherite_boots",
+    "minecraft:netherite_upgrade_smithing_template",
+    "minecraft:diamond_boots",
+    "minecraft:netherite_ingot",
+    "minecraft:netherite_boots",
+)
+
+smithing_trim_recipe = SmithingTrimRecipe(
+    "smithing_diamond_boots_jungle_quartz_trim",
+    "minecraft:jungle_temple_smithing_template",
+    "minecraft:diamond_boots",
+    "minecraft:quartz"
+)
+
+addons.AddRecipe(furnace_recipe)
+addons.AddRecipe(brewing_container_recipe)
+addons.AddRecipe(brewing_mix_recipe)
+addons.AddRecipe(shaped_recipe)
+addons.AddRecipe(shapeless_recipe)
+addons.AddRecipe(smithing_transform_recipe)
+addons.AddRecipe(smithing_trim_recipe)
 addons.addItem(arrow_turret_placer)
 addons.addEntities(creeper)
 addons.generate()
