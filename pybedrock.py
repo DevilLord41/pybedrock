@@ -111,7 +111,7 @@ class Addons:
         self.formatManifest(
             self.dev_rp,
             self.rp_uuid,
-            self.bp_modules_uuid,
+            self.rp_modules_uuid,
             self.min_engine_version,
             "resources",
         )
@@ -210,8 +210,8 @@ class Addons:
                 entity_description["animations"] = entity.bp_animations
 
             if entity.bp_animate is not None:
-                entity_description["script"] = {}
-                entity_description["script"]["animate"] = entity.bp_animate
+                entity_description["scripts"] = {}
+                entity_description["scripts"]["animate"] = entity.bp_animate
 
             entity_bp = json_entity["minecraft:entity"]
             entity_bp["component_groups"] = {}
