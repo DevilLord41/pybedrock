@@ -1,5 +1,6 @@
 /ore_fusion_project/**
 /secret_doors_project/**
+/secret_door_2/**
 **.png
 nbt.py
 /__pycache__/**
